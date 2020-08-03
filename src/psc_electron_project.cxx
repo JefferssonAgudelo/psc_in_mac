@@ -94,10 +94,10 @@ struct ElectronProject : Psc<PscConfig>
     
     
     // These values are in units of c from the fitting    
-    Vi_th_per_ = .1;
+    Vi_th_per_ = .00016;
     Ve_core_th_per_ = .00826;
     Ve_strahl_th_per_ = .0112;
-    Vi_th_par_ = .1;
+    Vi_th_par_ = .00016;
     Ve_core_th_par_ = .00821;
     Ve_strahl_th_par_ = .0172;
  
@@ -106,11 +106,12 @@ struct ElectronProject : Psc<PscConfig>
     //beta_e_strahl_ = .03; 
     
     beta_i_per_ = .768;
-    beta_e_core_per_ = 1.07;
-    beta_e_strahl_per_ = .0518;
     beta_i_par_ = .768;
-    beta_e_core_par_ = .122;
-    beta_e_strahl_par_ = sqr(Ve_strahl_th_par_ / vA_e_strahl_over_c_);
+    beta_e_core_per_ = 1.07;
+    beta_e_core_par_ = 1.06;
+    beta_e_strahl_per_ = .0518;
+    beta_e_strahl_par_ = .122;
+        
 
 	Ti_per_ = beta_i_per_ * sqr(B0_) / ( 2. * kb * mu0 *ni_ );
 	Te_core_per_ = beta_e_core_per_ * sqr(B0_) / ( 2. * kb * mu0 *ne_core_ ); 
