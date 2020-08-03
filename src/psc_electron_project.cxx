@@ -133,6 +133,7 @@ struct ElectronProject : Psc<PscConfig>
 	
             
     //double d_i = sqrt(kinds[MY_ION].m / kinds[MY_ION].q);
+    double output_particle_interval;
     double d_i =1.;
     
     mpi_printf(comm, "d_e = %g, d_i = %g\n", 1./sqrt(mi_over_me_) , d_i); //assuming ne = ni

@@ -12,8 +12,8 @@
 struct hdf5_prt {
   float x, y, z;
   float px, py, pz;
-  //float q, //m, w;
-  float q, m, w;
+  float q; //m, w;
+  //float q, m, w;
 };
 
 #define H5_CHK(ierr) assert(ierr >= 0)
@@ -44,8 +44,8 @@ struct psc_output_particles_hdf5 : OutputParticlesParams, OutputParticlesBase
     H5Tinsert(id, "py", HOFFSET(struct hdf5_prt, py), H5T_NATIVE_FLOAT);
     H5Tinsert(id, "pz", HOFFSET(struct hdf5_prt, pz), H5T_NATIVE_FLOAT);
     H5Tinsert(id, "q" , HOFFSET(struct hdf5_prt, q) , H5T_NATIVE_FLOAT);
-    H5Tinsert(id, "m" , HOFFSET(struct hdf5_prt, m) , H5T_NATIVE_FLOAT);
-    H5Tinsert(id, "w" , HOFFSET(struct hdf5_prt, w) , H5T_NATIVE_FLOAT); // comments these
+    //H5Tinsert(id, "m" , HOFFSET(struct hdf5_prt, m) , H5T_NATIVE_FLOAT);
+    //H5Tinsert(id, "w" , HOFFSET(struct hdf5_prt, w) , H5T_NATIVE_FLOAT); // comments these
     prt_type = id;
     
     // set hi to gdims by default (if not set differently before)
@@ -217,8 +217,8 @@ struct psc_output_particles_hdf5 : OutputParticlesParams, OutputParticlesBase
 		arr[nn].py = part->p[1];
 		arr[nn].pz = part->p[2];
 		arr[nn].q  = prts.prt_qni(*part);
-		arr[nn].m  = prts.prt_mni(*part); //
-		arr[nn].w  = prts.prt_wni(*part); //
+		//arr[nn].m  = prts.prt_mni(*part); //
+		//arr[nn].w  = prts.prt_wni(*part); //
 	      }
 	    }
 	  }
