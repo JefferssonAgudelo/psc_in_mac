@@ -1,0 +1,30 @@
+*** Setting up...
+d_e = 0.1, d_i = 1
+lambda_Di (background) = 0.0619677
+==================================================== class == mrc_io
+parameter           | value
+--------------------+----------------------------------------
+outdir              | .
+basename            | pfd
+--------------------+-------------------------------- type -- xdmf_collective
+use_independent_io  | no
+nr_writers          | 1
+romio_cb_write      | (null)
+romio_ds_write      | (null)
+slab_dims           | 0, 0, 0
+slab_off            | 0, 0, 0
+
+**** Partitioning...
+[0] psc_balance: loads_sum 128640 capability_sum 16 load_target 8040
+[0] psc_balance: achieved target 8040 (0 % -- 0 %)
+***** Balance: decomposition unchanged
+**** Setting up particles...
+**** Setting up fields...
+Performing initial diagnostics.
+***** Writing PFD output
+[Jefferssons-MacBook-Pro:16346] *** An error occurred in MPI_Send
+[Jefferssons-MacBook-Pro:16346] *** reported by process [3169189889,2]
+[Jefferssons-MacBook-Pro:16346] *** on communicator MPI_COMM_WORLD
+[Jefferssons-MacBook-Pro:16346] *** MPI_ERR_COUNT: invalid count argument
+[Jefferssons-MacBook-Pro:16346] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[Jefferssons-MacBook-Pro:16346] ***    and potentially your MPI job)

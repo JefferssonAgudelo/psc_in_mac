@@ -45,6 +45,7 @@
 
 // EDIT to change order / floating point type / cuda / 2d/3d
 using dim_t = dim_yz;
+//using dim_t = dim_xyz;
 using PscConfig = PscConfig1vbecSingle<dim_t>;
 //using PscConfig = PscConfig1vbecCuda<dim_t>;
 
@@ -138,7 +139,7 @@ struct ElectronProject : Psc<PscConfig>
     
     mpi_printf(comm, "d_e = %g, d_i = %g\n", 1./sqrt(mi_over_me_) , d_i); //assuming ne = ni
     mpi_printf(comm, "lambda_Di (background) = %g\n", sqrt(beta_i_per_ / 2.) * vA_i_over_c_ * d_i);
-    p_.nmax = 801;
+    p_.nmax = 401;
     p_.cfl = 0.75;
 
     // -- setup particle kinds
@@ -151,8 +152,8 @@ struct ElectronProject : Psc<PscConfig>
     Int3 gdims = { 400, 800, 2400}; // global number of grid points
     Int3 np = { 40, 80, 4 }; // division into patches
 #else
-    Grid_t::Real3 LL = { 1., 10., 10 }; // domain size (in d_e). is it really d_e question Jeff?
-    Int3 gdims = { 1, 40, 40}; // global number of grid points
+    Grid_t::Real3 LL = { 1., 4., 4. }; // domain size (in d_e). is it really d_e question Jeff?
+    Int3 gdims = { 1, 80, 80}; // global number of grid points
     Int3 np = { 1, 4, 4 }; // division into patches
 #endif
 
@@ -168,7 +169,7 @@ struct ElectronProject : Psc<PscConfig>
 
     // --- generic setup
     auto norm_params = Grid_t::NormalizationParams::dimensionless();
-    norm_params.nicell = 50;
+    norm_params.nicell = 10;
 	output_particle_interval = 200; // Interval to request particle output
 
     double dt = p_.cfl * courant_length(grid_domain);
@@ -221,10 +222,11 @@ struct ElectronProject : Psc<PscConfig>
         psc_output_particles_set_param_int(outp_,"every_step",
                                                    (int) (output_particle_interval));
                                                    
-		//psc_output_particles_set_param_int3(outp_,"lo", // something in here is not working
-		//									(int[3]) { 0, 1, 2});
-		//psc_output_particles_set_param_int3(outp_,"hi",
-		//									(int[3]) { 1, 4, 4});
+		psc_output_particles_set_param_int3(outp_,"lo", // something in here is not working
+											(int[3]) { 0, 0, 0}); // when setting (int[3]) { 1, 1, 1}); it runs but the outputs are empty
+																  //when setting (int[3]) { 0, 0, 0}); there are error reported in the file output_error.txt	
+		psc_output_particles_set_param_int3(outp_,"hi",
+											(int[3]) { 1, 21, 21}); //(int[3]) { 1, 4, 4});
 		}
     // --- partition particles and initial balancing
     mpi_printf(comm, "**** Partitioning...\n");
