@@ -207,11 +207,22 @@ struct ElectronProject : Psc<PscConfig>
     marder_.reset(new Marder_t(grid(), marder_diffusion, marder_loop, marder_dump));
 
     
-    // -- output fields
+    // -- output fields // In the second simulation do not ask for all the fields information as it is not necessary.
     OutputFieldsCParams outf_params;
     outf_params.output_fields = "e,h,j,n_1st_single,v_1st_single,T_1st_single";
-    outf_params.pfield_step = 100;
-    outf_.reset(new OutputFieldsC{grid(), outf_params});
+    
+    auto timestep = grid().timestep();
+    if (timestep < 201) { 
+	    outf_params.pfield_step = 50; 
+	    outf_.reset(new OutputFieldsC{grid(), outf_params});
+	} else if (201 < timestep < 301) {
+	    outf_params.pfield_step = 20;
+	    outf_.reset(new OutputFieldsC{grid(), outf_params});
+	} else {
+		outf_params.pfield_step = 100;
+		outf_.reset(new OutputFieldsC{grid(), outf_params});
+	}
+    
     
     
     // -- output particles 
@@ -222,12 +233,14 @@ struct ElectronProject : Psc<PscConfig>
         psc_output_particles_set_param_int(outp_,"every_step",
                                                    (int) (output_particle_interval));
                                                    
-		psc_output_particles_set_param_int3(outp_,"lo", // something in here is not working
-											(int[3]) { 0, 0, 0}); // when setting (int[3]) { 1, 1, 1}); it runs but the outputs are empty
-																  //when setting (int[3]) { 0, 0, 0}); there are error reported in the file output_error.txt	
-		psc_output_particles_set_param_int3(outp_,"hi",
-											(int[3]) { 1, 21, 21}); //(int[3]) { 1, 4, 4});
+		//psc_output_particles_set_param_int3(outp_,"lo", // something in here is not working
+		//									(int[3]) { 0, 0, 0}); // when setting (int[3]) { 1, 1, 1}); it runs but the outputs are empty
+																  //when setting (int[3]) { 0, 0, 0}); there are errors reported in the file output_error.txt	
+		//psc_output_particles_set_param_int3(outp_,"hi",
+		//									(int[3]) { 1, 21, 21}); //(int[3]) { 1, 4, 4});
 		}
+    
+    
     // --- partition particles and initial balancing
     mpi_printf(comm, "**** Partitioning...\n");
     auto n_prts_by_patch_old = setup_initial_partition();

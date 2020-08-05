@@ -23,8 +23,8 @@ struct PscParams
   double cfl = .75;            // CFL number used to determine time step
   int nmax;                    // Number of timesteps to run
   double wallclock_limit = 0.; // Maximum wallclock time to run
-  bool write_checkpoint = false;
-  int write_checkpoint_every_step = 0;
+  bool write_checkpoint = false; //false;
+  int write_checkpoint_every_step = 0; //0;
 
   bool detailed_profiling = false; // output profiling info for each process separately
   int stats_every = 10;    // output timing and other info every so many steps
